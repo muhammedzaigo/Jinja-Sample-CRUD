@@ -1,0 +1,6 @@
+
+
+ACTIVE = 1
+INACTIVE = 0
+DELETE = 3
+DRAFT = 2

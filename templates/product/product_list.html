@@ -1,0 +1,40 @@
+<table id="example" class="table table-striped" style="width: 100%">
+  <thead>
+    <tr>
+      <th>Image</th>
+      <th>Name</th>
+      <th>Category</th>
+      <th>Description</th>
+      <th>Created_at</th>
+      <th>created_by</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for product  in  products %}
+    <tr>
+      <td>
+        {% if product.image  %}
+        <img src="{{product.image.url}}" alt="" height="80px" width="80px">
+        {% else %}
+        <img src="" alt="No Image" height="80px" width="80px">
+        {% endif %}
+      </td>
+      <td>{{product.name}}</td>
+      <td>{{product.category.name}}</td>
+      <td>{{product.description}}</td>
+      <td>{{product.created_at}}</td>
+      <td>{{product.created_by}}</td>
+      <td>
+        <a class="ml-1" href="javascript:void(0)" data-toggle="modal" data-target="#add-product-{{product.id}}" title="Edit"
+        data-toggle="tooltip">
+        <i class="fa fa-edit color-muted"></i></a>
+      
+      <a href="#" onclick="delete_product( '{{product.id}}' )" class="ml-1" data-toggle="tooltip" data-placement="top"
+        title="Delete"><i class="fa fa-trash-o fa-lg"></i></a>
+      </td>
+    </tr>
+    {% include 'product/edit.html' %}
+    {% endfor %}
+  </tbody>
+</table>
