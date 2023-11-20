@@ -1,30 +1,30 @@
 
-<table class="table">
-    <thead>
-      <tr>
-        <th scope="col">Name</th>
-        <th scope="col">Quatity</th>
-        <th scope="col">Price</th>
-        <th scope="col">Actions</th>
-      </tr>
-    </thead>
-    <tbody id="dynamicadd">
-      <tr id="row-0">
-        <td >
-            <input type="text" class="form-control" name="name">
-            <p class="text-danger" id="name-error-0"></p>
-        </td>
-        <td>
-          <input type="text" class="form-control" name="quantity">
-          <p class="text-danger" id="quantity-error-0"></p>
-        </td>
-        <td>
-          <input type="text" class="form-control" name="price">
-          <p class="text-danger" id="price-error-0"></p>
-        </td>
-        <td>
-          <a type="button" id="add" class="form-control bg-success btn"><span class="text-light font-weight-bold">&PlusMinus;</span></a>
-        </td>
-      </tr>
-    </tbody>
+<table id="example" class="table table-striped" style="width: 100%">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Description</th>
+      <th>Created_at</th>
+      <th>created_by</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for category  in  categories %}
+    <tr>
+      <td>{{category.name}}</td>
+      <td>{{category.description}}</td>
+      <td>{{category.created_at}}</td>
+      <td>{{category.created_by}}</td>
+      <td>
+        <a class="ml-1" href="javascript:void(0)" data-toggle="modal" data-target="#add-category-{{category.id}}" title="Edit"
+        data-toggle="tooltip">
+        <i class="fa fa-edit color-muted"></i></a>
+      
+      <a href="#" onclick="" class="ml-1" data-toggle="tooltip" data-placement="top"
+        title="Delete"><i class="fa fa-trash-o fa-lg"></i></a>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
 </table>

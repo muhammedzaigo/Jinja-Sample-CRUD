@@ -85,5 +85,18 @@ def delete_product(request, prod_id):
     
     
 
+
+import json
+
 def categories(request):
-    return render(request, 'category/category.html')
+    if request.method == 'POST':
+        categories_data = json.loads(request.body.decode('utf-8'))
+        categories_datas  = categories_data.get('datas', None)
+        for category in categories_datas:
+            Category.objects.create(**category)
+        products = Category.objects.filter(status=ACTIVE)
+        template=render_to_string('category/category_list.html',{'categories': products})
+        return JsonResponse({'status':True, "msg" :"Category created successfully","template":template}) 
+    categories = Category.objects.all()
+    context = {"categories":categories}
+    return render(request, 'category/category.html',context)

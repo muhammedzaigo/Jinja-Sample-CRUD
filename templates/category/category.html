@@ -10,10 +10,14 @@
 
 
 {% block content %}
-    <div id="responce-data">
+<div class="mt-3">
+    <button type="button" class="btn btn-primary mb-3" data-toggle="modal" data-target="#add-category" style="float: right;">ADD NEW</button>
+    {% include 'category/add.html' %}
+    <div id="categories-responce-data">
         {% include "category/category_list.html" %}
-        <div class="btn-primary btn float-end" id="save">Save</div>
-    </div>  
+    </div>
+</div>
+
 {% endblock content %} 
 
 
@@ -26,17 +30,14 @@
 
         function check_validation(i){
             let name = $(`#row-${i} [name="name"]`).val();
-            let price = $(`#row-${i} [name="price"]`).val();
-            let quantity = $(`#row-${i} [name="quantity"]`).val();
+            let description = $(`#row-${i} [name="description"]`).val();
             
-            if (quantity.trim() === "" && name.trim() === "" && price.trim() === "") {
+            if (description.trim() === "" && name.trim() === "") {
                 $(`#name-error-${i}`).text("Name is required").show();
-                $(`#price-error-${i}`).text("Price is required").show();
-                $(`#quantity-error-${i}`).text("Quantity is required").show();
+                $(`#description-error-${i}`).text("Description is required").show();
             } else {
                 $(`#name-error-${i}`).hide();
-                $(`#quantity-error-${i}`).hide();
-                $(`#price-error-${i}`).hide();
+                $(`#description-error-${i}`).hide();
             }
 
             if (name.trim() === "") {
@@ -45,18 +46,13 @@
                 $(`#name-error-${i}`).hide();
             }
             
-            if (quantity.trim() === "") {
-                $(`#quantity-error-${i}`).text("quantity is required").show();
+            if (description.trim() === "") {
+                $(`#description-error-${i}`).text("Description is required").show();
             } else {
-                $(`#quantity-error-${i}`).hide();
+                $(`#description-error-${i}`).hide();
             }
             
-            if (price.trim() === "") {
-                $(`#price-error-${i}`).text("price is required").show();
-            } else {
-                $(`#price-error-${i}`).hide();
-            }
-            if (name.trim() === "" || quantity.trim() === "" || price.trim() === "") {
+            if (name.trim() === "" || description.trim() === "") {
                 return false;
             }
         }
@@ -81,10 +77,8 @@
             <tr id="row-${i}">
                 <td ><input type="text" class="form-control" name="name" >
                     <p class="text-danger" id="name-error-${i}"></p></td>
-                <td><input type="text" class="form-control" name="quantity" >
-                    <p class="text-danger" id="quantity-error-${i}"></p></td>
-                <td><input type="text" class="form-control" name="price" >
-                    <p class="text-danger" id="price-error-${i}"></p></td>  
+                <td><input type="text" class="form-control" name="description" >
+                    <p class="text-danger" id="description-error-${i}"></p></td>
                 <td><button  id="${i}" class="form-control bg-danger btn btn_remove"><span class="text-light font-weight-bold">&PlusMinus;</span></button></td>
             </tr>`
             )
@@ -97,6 +91,7 @@
 
 
         $('#save').click(() => {
+            console.log("Saving...");
             lastid = lastrownumber()
             if (check_validation(lastid) == false){
                 return false;
@@ -106,21 +101,50 @@
             $('#dynamicadd tr').each(function () {
                 var rowId = $(this).attr('id');
                 var name = $(`#${rowId} [name="name"]`).val();
-                var quantity = $(`#${rowId} [name="quantity"]`).val();
-                var price = $(`#${rowId} [name="price"]`).val();
+                var description = $(`#${rowId} [name="description"]`).val();
 
-                if (name.trim() !== "" && quantity.trim() !== "" && price.trim() !== "") {
+                if (name.trim() !== "" && description.trim() !== "") {
                     postData.push({
                         "name": name,
-                        "quantity": quantity,
-                        "price": price
+                        "description": description,
                     });
                 }
             });
 
-            // Log the collected data (you can replace this with your actual POST request)
             console.log(JSON.stringify(postData));
+            datas = {"datas":postData}
+            const headers = {
+                'X-CSRFToken':'{{ csrf_token }}',
+              };
+            axios.post('{% url "sample:categories" %}', datas, {headers}
+            ).then((res) => {
+                $('#categories-responce-data').html(res.data.template);
+                Swal.fire({
+                    position: 'top-end',
+                    icon: 'success',
+                    title: res.data.msg,
+                    showConfirmButton: false,
+                    timer: 2000
+                })
+                $("#add-category").find('form').trigger('reset');
+                // modal close button click 
+                $("#add-category" + " .close").click();
+            })
+            .catch((error) => {
+                Swal.fire({
+                    position: 'top-end',
+                    icon: 'error',
+                    title: error,
+                    showConfirmButton: false,
+                    timer: 2000
+                })
+            });
+
+
         });
     })
 </script>
 {% endblock js_content %}
+
+
+

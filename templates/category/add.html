@@ -1,0 +1,43 @@
+<!-- Button trigger modal -->
+
+  
+  <!-- Modal -->
+  <div class="modal fade" id="add-category" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">Add Category</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="p-2">
+            <table class="table">
+                <thead>
+                  <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="dynamicadd">
+                  <tr id="row-0">
+                    <td >
+                        <input type="text" class="form-control" name="name">
+                        <p class="text-danger" id="name-error-0"></p>
+                    </td>
+                    <td>
+                      <input type="text" class="form-control" name="description">
+                      <p class="text-danger" id="description-error-0"></p>
+                    </td>
+                    <td>
+                      <a type="button" id="add" class="form-control bg-success btn"><span class="text-light font-weight-bold">&PlusMinus;</span></a>
+                    </td>
+                  </tr>
+                </tbody>
+            </table>
+            <div class="btn-primary btn float-end" id="save">Save</div>
+        </div>
+      </div>
+    </div>
+  </div>
