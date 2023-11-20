@@ -126,8 +126,6 @@
                     showConfirmButton: false,
                     timer: 2000
                 })
-                $("#add-category").find('form').trigger('reset');
-                // modal close button click 
                 $("#add-category" + " .close").click();
             })
             .catch((error) => {
@@ -138,6 +136,7 @@
                     showConfirmButton: false,
                     timer: 2000
                 })
+                $("#add-category" + " .close").click();
             });
 
 
