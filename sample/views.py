@@ -8,6 +8,10 @@ from django.views.generic.list import ListView
 from .utils import ACTIVE, DELETE
 from .models import *
 
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from rest_framework import status
+from rest_framework.views import APIView
 
 class LandingPage(ListView):
     template_name = "product/product.html"
@@ -41,12 +45,6 @@ def add_product(request, **kwargs):
         return JsonResponse({'status':True,"msg":"Product add Succesfully",'template':template})
     except Exception as e:
         return JsonResponse({'status':False, "msg" : str(e)}) 
-
-
-from rest_framework.decorators import api_view
-from rest_framework.response import Response
-from rest_framework import status
-from rest_framework.views import APIView
 
 
 class UpdateProduct(APIView):
@@ -84,3 +82,8 @@ def delete_product(request, prod_id):
         return JsonResponse({'status':True,"msg":"Product Delete Succesfully",})
     except Exception as e:
         return JsonResponse({'status':False, "msg" : str(e)}) 
+    
+    
+
+def categories(request):
+    return render(request, 'category/category.html')

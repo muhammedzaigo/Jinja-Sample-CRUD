@@ -1,41 +1,31 @@
 {% extends "base-layout.html" %}
 {% load static %}
-<title>{% block title_content %}Product_list{% endblock title_content %}</title>
+
+{% block title_content %}Product_list{% endblock title_content %}
 
 {% block static_content %}
-
-<link
-  rel="stylesheet"
-  href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css"
-/>
-<link
-  rel="stylesheet"
-  href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css"
-/>
-
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css"/>
+<link rel="stylesheet"href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css"/>
 {% endblock static_content %} 
 
 
 {% block content %}
-
-
-
-<div class="mt-3">
-
-  <button type="button" class="btn btn-primary mb-3" data-toggle="modal" data-target="#add-product" style="float: right;">ADD NEW</button>
-
-  {% include 'product/add.html' %}
-  <div id="responce-data">
-  {% include 'product/product_list.html' %}
+  <div class="mt-3">
+    <button type="button" class="btn btn-primary mb-3" data-toggle="modal" data-target="#add-product" style="float: right;">ADD NEW</button>
+    {% include 'product/add.html' %}
+    <div id="responce-data">
+      {% include 'product/product_list.html' %}
+    </div>  
   </div>
-  {% endblock content %} 
-  {% block js_content %}
-  
-  
-  <script>
+{% endblock content %} 
 
-    const form = document.getElementById('product-add-form')
-    $('#product-add-form').on('submit', async function (event) {
+
+{% block js_content %}
+  
+<script>
+
+  const form = document.getElementById('product-add-form')
+  $('#product-add-form').on('submit', async function (event) {
         event.preventDefault();
         const formdata = new FormData(form);
         await axios.post('{% url "sample:add_product" %}', formdata).then((res) => {
@@ -66,9 +56,9 @@
                 $("#add-product" + " .close").click();
             }
         })
-    });
+  });
 
-    function edit_product(pk) {
+  function edit_product(pk) {
       console.log(pk)
       const form = document.getElementById('product-edit-form-' + pk)
       const formdata = new FormData(form);
@@ -134,9 +124,9 @@
           })
         }
     })
-}
+  }
     
-  </script>
+</script>
   
-  {% endblock js_content %}
-</div>
+{% endblock js_content %}
+
