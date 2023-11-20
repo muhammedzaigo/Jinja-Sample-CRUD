@@ -1,0 +1,126 @@
+{% extends "base-layout.html" %}
+{% load static %}
+
+{% block title_content %}Category List{% endblock title_content %}
+
+{% block static_content %}
+<link rel="stylesheet" href="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css"/>
+<link rel="stylesheet"href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css"/>
+{% endblock static_content %} 
+
+
+{% block content %}
+    <div id="responce-data">
+        {% include "category/category_list.html" %}
+        <div class="btn-primary btn float-end" id="save">Save</div>
+    </div>  
+{% endblock content %} 
+
+
+{% block js_content %}
+
+<script>
+
+    $(document).ready(()=>{
+        var i = 0;
+
+        function check_validation(i){
+            let name = $(`#row-${i} [name="name"]`).val();
+            let price = $(`#row-${i} [name="price"]`).val();
+            let quantity = $(`#row-${i} [name="quantity"]`).val();
+            
+            if (quantity.trim() === "" && name.trim() === "" && price.trim() === "") {
+                $(`#name-error-${i}`).text("Name is required").show();
+                $(`#price-error-${i}`).text("Price is required").show();
+                $(`#quantity-error-${i}`).text("Quantity is required").show();
+            } else {
+                $(`#name-error-${i}`).hide();
+                $(`#quantity-error-${i}`).hide();
+                $(`#price-error-${i}`).hide();
+            }
+
+            if (name.trim() === "") {
+                $(`#name-error-${i}`).text("Name is required").show();
+            } else {
+                $(`#name-error-${i}`).hide();
+            }
+            
+            if (quantity.trim() === "") {
+                $(`#quantity-error-${i}`).text("quantity is required").show();
+            } else {
+                $(`#quantity-error-${i}`).hide();
+            }
+            
+            if (price.trim() === "") {
+                $(`#price-error-${i}`).text("price is required").show();
+            } else {
+                $(`#price-error-${i}`).hide();
+            }
+            if (name.trim() === "" || quantity.trim() === "" || price.trim() === "") {
+                return false;
+            }
+        }
+
+        function lastrownumber() {
+            let numRows = $('#dynamicadd tr').length;
+            let lastRowId;
+            $('#dynamicadd tr').each(function() {
+                lastRowId = $(this).attr('id');
+            });
+            const parts = lastRowId.split('-');
+            return parts[1];
+        }
+        
+        $('#add').click(()=>{
+            lastid = lastrownumber()
+            if (check_validation(lastid) == false){
+                return false;
+            }
+            i++;
+            $('#dynamicadd').append(`
+            <tr id="row-${i}">
+                <td ><input type="text" class="form-control" name="name" >
+                    <p class="text-danger" id="name-error-${i}"></p></td>
+                <td><input type="text" class="form-control" name="quantity" >
+                    <p class="text-danger" id="quantity-error-${i}"></p></td>
+                <td><input type="text" class="form-control" name="price" >
+                    <p class="text-danger" id="price-error-${i}"></p></td>  
+                <td><button  id="${i}" class="form-control bg-danger btn btn_remove"><span class="text-light font-weight-bold">&PlusMinus;</span></button></td>
+            </tr>`
+            )
+        });
+
+        $(document).on('click','.btn_remove',function(){
+            var row_id = $(this).attr('id');
+            $('#row-'+row_id).remove();
+        })
+
+
+        $('#save').click(() => {
+            lastid = lastrownumber()
+            if (check_validation(lastid) == false){
+                return false;
+            }
+            var postData = [];
+
+            $('#dynamicadd tr').each(function () {
+                var rowId = $(this).attr('id');
+                var name = $(`#${rowId} [name="name"]`).val();
+                var quantity = $(`#${rowId} [name="quantity"]`).val();
+                var price = $(`#${rowId} [name="price"]`).val();
+
+                if (name.trim() !== "" && quantity.trim() !== "" && price.trim() !== "") {
+                    postData.push({
+                        "name": name,
+                        "quantity": quantity,
+                        "price": price
+                    });
+                }
+            });
+
+            // Log the collected data (you can replace this with your actual POST request)
+            console.log(JSON.stringify(postData));
+        });
+    })
+</script>
+{% endblock js_content %}
