@@ -74,10 +74,6 @@
                 showConfirmButton: false,
                 timer: 2000
             })
-            // model data reset
-            $("#add-product-"+ pk).find('form').trigger('reset');
-            // modal close button click 
-            $("#add-product"+ pk + " .close").click();
         }else{
             Swal.fire({
                 position: 'top-end',
@@ -86,12 +82,9 @@
                 showConfirmButton: false,
                 timer: 1500
             })
-            $("#add-product-"+ pk).find('form').trigger('reset');
-            // modal close button click 
-            $("#add-product"+ pk + " .close").click();
         }
+      window.location.reload()
     })
-
   }
 
 

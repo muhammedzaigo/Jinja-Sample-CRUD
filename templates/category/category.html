@@ -110,7 +110,7 @@
                 }
             });
 
-            console.log(JSON.stringify(postData));
+            // console.log(JSON.stringify(postData));
             datas = {"datas":postData}
             const headers = {
                 'X-CSRFToken':'{{ csrf_token }}',
@@ -148,8 +148,6 @@
                 })
                 $("#add-category" + " .close").click();
             });
-
-
         });
     })
 
@@ -181,6 +179,7 @@
             }
             $("#edit-category-"+ pk).find('form').trigger('reset');
             $(`#add-category-${pk}` + " .close").click();
+            window.location.reload()
         })
     }
 </script>
