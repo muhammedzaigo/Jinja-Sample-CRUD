@@ -4,14 +4,13 @@ from django.template.loader import render_to_string
 
 # Create your views here.
 from django.views.generic.list import ListView
-
 from .utils import ACTIVE, DELETE
 from .models import *
-
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.views import APIView
+import json
 
 class LandingPage(ListView):
     template_name = "product/product.html"
@@ -86,7 +85,6 @@ def delete_product(request, prod_id):
     
 
 
-import json
 
 def categories(request):
     if request.method == 'POST':
