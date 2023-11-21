@@ -82,9 +82,6 @@ def delete_product(request, prod_id):
     except Exception as e:
         return JsonResponse({'status':False, "msg" : str(e)}) 
     
-    
-
-
 
 def categories(request):
     if request.method == 'POST':
