@@ -1,0 +1,24 @@
+<!-- Button trigger modal -->
+
+  
+  <!-- Modal -->
+  <div class="modal fade" id="add-category-{{category.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">Edit Category</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="p-2">
+            <form action="{% url 'sample:edit_categories' category_id=category.id %}" method="post" id="edit-category-{{category.id}}" >
+                {% csrf_token %}
+                <input type="text" class="form-control m-1" name="name" value="{{category.name}}">
+                <input type="text" class="form-control m-1" name="description" value="{{category.description}}">
+                <button type="button" class="btn btn-primary float-end" onclick="edit_category('{{category.id}}')">Edit Save</button>
+            </form>
+        </div>
+      </div>
+    </div>
+  </div>
