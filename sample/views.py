@@ -91,7 +91,21 @@ def categories(request):
             Category.objects.create(**category)
         products = Category.objects.filter(status=ACTIVE)
         template=render_to_string('category/category_list.html',{'categories': products})
-        return JsonResponse({'status':True, "msg" :"Category created successfully","template":template}) 
+        return JsonResponse({"msg" :"Category created successfully","template":template},status=status.HTTP_200_OK) 
     categories = Category.objects.all()
     context = {"categories":categories}
     return render(request, 'category/category.html',context)
+
+
+def edit_categories(request,category_id):
+    if request.method == 'POST':
+        category = Category.objects.filter(id=category_id).first()
+        if not category:
+            return JsonResponse({"msg" :"Category Not Found"}, status=400) 
+        name = request.POST.get('name')
+        description = request.POST.get('description')
+        category.name = name
+        category.description = description
+        category.save()
+        return JsonResponse({"msg" :"Category Update successfully"},status=200) 
+    return JsonResponse({'message': 'Invalid request method'}, status=400)

@@ -8,3 +8,4 @@ logs
 .vscode
 env
 .idea
+db.sqlite3

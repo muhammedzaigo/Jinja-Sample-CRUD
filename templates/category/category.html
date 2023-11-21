@@ -91,7 +91,6 @@
 
 
         $('#save').click(() => {
-            console.log("Saving...");
             lastid = lastrownumber()
             if (check_validation(lastid) == false){
                 return false;
@@ -118,14 +117,25 @@
               };
             axios.post('{% url "sample:categories" %}', datas, {headers}
             ).then((res) => {
-                $('#categories-responce-data').html(res.data.template);
-                Swal.fire({
-                    position: 'top-end',
-                    icon: 'success',
-                    title: res.data.msg,
-                    showConfirmButton: false,
-                    timer: 2000
-                })
+                if (res.status == 200){
+                    $('#categories-responce-data').html(res.data.template);
+                    Swal.fire({
+                        position: 'top-end',
+                        icon: 'success',
+                        title: res.data.msg,
+                        showConfirmButton: false,
+                        timer: 2000
+                    })
+                }
+                else{
+                    Swal.fire({
+                        position: 'top-end',
+                        icon: 'error',
+                        title: res.data.msg,
+                        showConfirmButton: false,
+                        timer: 2000
+                    })
+                }
                 $("#add-category" + " .close").click();
             })
             .catch((error) => {
@@ -142,6 +152,37 @@
 
         });
     })
+
+    function edit_category(pk){
+        const form = document.getElementById('edit-category-' + pk)
+        const formdata = new FormData(form);
+        const headers = {
+            'X-CSRFToken':'{{ csrf_token }}'
+        };
+        url = form.action
+        axios.post(url, formdata, {headers}).then((res)=>{
+            if (res.status == 200){
+                    Swal.fire({
+                        position: 'top-end',
+                        icon: 'success',
+                        title: res.data.msg,
+                        showConfirmButton: false,
+                        timer: 2000
+                    })
+                }
+            else {
+                Swal.fire({
+                    position: 'top-end',
+                    icon: 'error',
+                    title: res.data.msg,
+                    showConfirmButton: false,
+                    timer: 2000
+                })
+            }
+            $("#edit-category-"+ pk).find('form').trigger('reset');
+            $(`#add-category-${pk}` + " .close").click();
+        })
+    }
 </script>
 {% endblock js_content %}
 

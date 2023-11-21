@@ -30,7 +30,6 @@
         const formdata = new FormData(form);
         await axios.post('{% url "sample:add_product" %}', formdata).then((res) => {
             if (res.data.status) {
-                console.log(res.data)
                 $('#responce-data').html(res.data.template);
                 Swal.fire({
                     position: 'top-end',
@@ -59,7 +58,6 @@
   });
 
   function edit_product(pk) {
-      console.log(pk)
       const form = document.getElementById('product-edit-form-' + pk)
       const formdata = new FormData(form);
       const headers = {
